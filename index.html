@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daily Quran Verse</title>
+    <meta
+      name="description"
+      content="A simple Daily Quran Verse page for GitHub Pages"
+    />
+    <meta property="og:title" content="Daily Quran Verse" />
+    <meta
+      property="og:description"
+      content="Reflect on a Quran verse every day"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/images/splash-icon.png" />
+    <link rel="icon" href="assets/images/favicon.png" />
+    <style>
+      :root {
+        --green-600: #2b8c5f;
+        --green-500: #3fa970;
+        --stone-50: #f8f9fa;
+        --stone-100: #f3f4f6;
+        --gray-500: #6b7280;
+        --gray-400: #9ca3af;
+        --text: #1a1a1a;
+        --card: #ffffff;
+        --danger: #e74c3c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: linear-gradient(180deg, var(--stone-50), #e8f5f0);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .safe {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 24px 16px 40px;
+      }
+      header {
+        padding: 12px 4px 8px;
+      }
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 6px;
+        font-weight: 800;
+        font-size: 28px;
+      }
+      .date {
+        color: var(--gray-500);
+        font-size: 14px;
+      }
+      .card {
+        margin: 16px 0;
+        background: var(--card);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 600ms ease-out;
+      }
+      .cardHeader {
+        height: 90px;
+        display: grid;
+        place-items: center;
+        color: white;
+        position: relative;
+        background: linear-gradient(135deg, var(--green-600), var(--green-500));
+      }
+      .bismillah {
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .content {
+        padding: 24px;
+      }
+      .arabic {
+        font-size: 28px;
+        line-height: 1.7;
+        text-align: center;
+        margin: 0 0 20px;
+        font-weight: 700;
+      }
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: center;
+        margin: 18px 0;
+      }
+      .divider .line {
+        height: 1px;
+        background: #e5e5e5;
+        flex: 1;
+      }
+      .divider .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--green-600);
+      }
+      .translation {
+        text-align: center;
+        color: #4b5563;
+        font-style: italic;
+        margin: 0 0 18px;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .ref {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .surah {
+        color: var(--green-600);
+        font-weight: 600;
+      }
+      .ayah {
+        color: var(--gray-500);
+      }
+      .translit {
+        text-align: center;
+        color: var(--gray-400);
+        font-style: italic;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        padding: 16px 20px;
+        border-top: 1px solid var(--stone-100);
+      }
+      .btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        color: #8b9a8c;
+        font-size: 12px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .btn svg {
+        width: 22px;
+        height: 22px;
+      }
+      .btn .saved {
+        color: var(--danger);
+      }
+      .pill {
+        margin: 10px 16px 0;
+        padding: 18px;
+        border-radius: 14px;
+        background: var(--card);
+        border: 1px solid #e5e5e5;
+      }
+      .pill h3 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+      .pill p {
+        margin: 0;
+        color: var(--gray-500);
+        line-height: 1.5;
+      }
+      footer {
+        text-align: center;
+        color: var(--gray-400);
+        margin-top: 28px;
+        font-size: 13px;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="safe" id="app" data-testid="page-root">
+      <header>
+        <h1 class="title">
+          <span aria-hidden="true">📖</span> <span>Daily Quran Verse</span>
+        </h1>
+        <div id="date" class="date" data-testid="date"></div>
+      </header>
+
+      <section class="card" aria-live="polite">
+        <div class="cardHeader">
+          <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        </div>
+        <div class="content">
+          <p id="arabic" class="arabic" dir="rtl" data-testid="text-ar"></p>
+          <div class="divider">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+          </div>
+          <p id="translation" class="translation" data-testid="text-tr"></p>
+          <div class="ref">
+            <span id="surah" class="surah" data-testid="text-surah"></span
+            ><span id="ayah" class="ayah" data-testid="text-ayah"></span>
+          </div>
+          <p id="translit" class="translit" data-testid="text-translit"></p>
+        </div>
+        <div class="actions">
+          <button
+            id="btn-fav"
+            class="btn"
+            data-testid="btn-save-verse"
+            title="Save"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 12 5.5a5.5 5.5 0 0 0-10 3c0 2.29 1.51 4.04 3 5.5l7 7Z"
+              />
+            </svg>
+            <span id="fav-label">Save</span>
+          </button>
+          <button
+            id="btn-share"
+            class="btn"
+            data-testid="btn-share-verse"
+            title="Share"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M22 12h-6" />
+              <path d="m16 8 4-4" />
+              <path d="m16 16 4 4" />
+              <path d="M2 20v-2a4 4 0 0 1 4-4h12" />
+            </svg>
+            <span>Share</span>
+          </button>
+          <button
+            id="btn-new"
+            class="btn"
+            data-testid="btn-new-verse"
+            title="New verse"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 2v6h-6" />
+              <path d="M3 12a9 9 0 0 1 15-6l3 2" />
+              <path d="M3 22v-6h6" />
+              <path d="M21 12a9 9 0 0 1-15 6l-3-2" />
+            </svg>
+            <span>New</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="pill">
+        <h3>Daily Reflection</h3>
+        <p>
+          Take a moment to reflect on today’s verse. How can its wisdom guide
+          your actions today?
+        </p>
+      </section>
+
+      <footer>
+        Built for GitHub Pages •
+        <a
+          href="https://github.com/ibrahimendire/Quran-verse"
+          target="_blank"
+          rel="noreferrer"
+          >Source</a
+        >
+      </footer>
+    </main>
+
+    <script>
+      const verses = [
+        {
+          id: "1",
+          surah: "Al-Baqarah",
+          ayah: 255,
+          arabic:
+            "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ",
+          translation:
+            "Allah! There is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep.",
+          transliteration:
+            "Allahu la ilaha illa huwal hayyul qayyum, la ta'khudhuhu sinatun wa la nawm",
+        },
+        {
+          id: "2",
+          surah: "Al-Ikhlas",
+          ayah: 1,
+          arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ",
+          translation: "Say, 'He is Allah, [who is] One'",
+          transliteration: "Qul huwa Allahu ahad",
+        },
+        {
+          id: "3",
+          surah: "Al-Fatiha",
+          ayah: 2,
+          arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+          translation: "All praise is due to Allah, Lord of the worlds",
+          transliteration: "Alhamdu lillahi rabbil 'alamin",
+        },
+        {
+          id: "4",
+          surah: "Al-Baqarah",
+          ayah: 286,
+          arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+          translation: "Allah does not burden a soul beyond that it can bear",
+          transliteration: "La yukallifullahu nafsan illa wus'aha",
+        },
+        {
+          id: "5",
+          surah: "Al-Ankabut",
+          ayah: 69,
+          arabic: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّھُمْ سُبُلَنَا",
+          translation:
+            "And those who strive for Us - We will surely guide them to Our ways",
+          transliteration: "Walladhina jahadu fina lanahdiyannahum subulana",
+        },
+        {
+          id: "6",
+          surah: "Ar-Rahman",
+          ayah: 13,
+          arabic: "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ",
+          translation: "So which of the favors of your Lord would you deny?",
+          transliteration: "Fabi ayyi ala'i rabbikuma tukadhdhibani",
+        },
+        {
+          id: "7",
+          surah: "Al-Inshirah",
+          ayah: 6,
+          arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+          translation: "Indeed, with hardship comes ease",
+          transliteration: "Inna ma'al 'usri yusra",
+        },
+        {
+          id: "8",
+          surah: "Al-Asr",
+          ayah: 1,
+          arabic: "وَالْعَصْرِ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ",
+          translation: "By time, Indeed, mankind is in loss",
+          transliteration: "Wal 'asr, Innal insana lafi khusr",
+        },
+        {
+          id: "9",
+          surah: "An-Nahl",
+          ayah: 90,
+          arabic: "إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ",
+          translation: "Indeed, Allah orders justice and good conduct",
+          transliteration: "Innallaha ya'muru bil 'adli wal ihsan",
+        },
+        {
+          id: "10",
+          surah: "Al-Imran",
+          ayah: 139,
+          arabic:
+            "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ",
+          translation:
+            "Do not lose hope, nor be sad. You will surely be victorious if you are true believers",
+          transliteration:
+            "Wa la tahinu wa la tahzanu wa antumul a'lawna in kuntum mu'minin",
+        },
+        {
+          id: "11",
+          surah: "At-Tawbah",
+          ayah: 51,
+          arabic: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا",
+          translation:
+            "Say, 'Never will we be struck except by what Allah has decreed for us'",
+          transliteration: "Qul lan yusibana illa ma kataballahu lana",
+        },
+        {
+          id: "12",
+          surah: "Az-Zumar",
+          ayah: 53,
+          arabic:
+            "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+          translation:
+            "Say, 'O My servants who have transgressed against themselves, do not despair of the mercy of Allah'",
+          transliteration:
+            "Qul ya 'ibadiyalladhina asrafu 'ala anfusihim la taqnatu min rahmatillah",
+        },
+      ];
+
+      const byDay = () => {
+        const today = new Date();
+        const start = new Date(today.getFullYear(), 0, 0);
+        const diff = today - start; // ms
+        const day = Math.floor(diff / (1000 * 60 * 60 * 24));
+        return verses[day % verses.length];
+      };
+
+      const els = {
+        date: document.getElementById("date"),
+        arabic: document.getElementById("arabic"),
+        translation: document.getElementById("translation"),
+        surah: document.getElementById("surah"),
+        ayah: document.getElementById("ayah"),
+        translit: document.getElementById("translit"),
+        favBtn: document.getElementById("btn-fav"),
+        favLabel: document.getElementById("fav-label"),
+        shareBtn: document.getElementById("btn-share"),
+        newBtn: document.getElementById("btn-new"),
+      };
+
+      const fmtDate = new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      els.date.textContent = fmtDate;
+
+      const FAVORITES_KEY = "qv_favs";
+      const loadFavs = () => {
+        try {
+          return JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+        } catch {
+          return [];
+        }
+      };
+      const saveFavs = (arr) =>
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(arr));
+      const isFav = (id) => loadFavs().some((v) => v.id === id);
+
+      let current = byDay();
+
+      function render(verse) {
+        current = verse;
+        els.arabic.textContent = verse.arabic;
+        els.translation.textContent = `"${verse.translation}"`;
+        els.surah.textContent = `Surah ${verse.surah}`;
+        els.ayah.textContent = `Ayah ${verse.ayah}`;
+        els.translit.textContent = verse.transliteration
+          ? verse.transliteration
+          : "";
+        const fav = isFav(verse.id);
+        els.favLabel.textContent = fav ? "Saved" : "Save";
+        els.favBtn.style.color = fav ? "var(--danger)" : "#8B9A8C";
+      }
+
+      function randomVerse() {
+        const i = Math.floor(Math.random() * verses.length);
+        return verses[i];
+      }
+
+      async function share() {
+        const msg = `${current.arabic}\n\n"${current.translation}"\n\n- Surah ${current.surah}, Verse ${current.ayah}\n\nShared from Daily Quran Verse`;
+        const data = {
+          title: "Daily Quran Verse",
+          text: msg,
+          url: location.href,
+        };
+        try {
+          if (navigator.share) {
+            await navigator.share(data);
+            return;
+          }
+        } catch (e) {
+          console.warn("navigator.share failed", e);
+        }
+        try {
+          await navigator.clipboard.writeText(msg);
+          alert("Verse copied to clipboard. You can paste it anywhere.");
+        } catch (_) {
+          const ta = document.createElement("textarea");
+          ta.value = msg;
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try {
+            document.execCommand("copy");
+            alert("Verse copied to clipboard.");
+          } catch {
+            alert("Share unavailable. Please copy manually.");
+          }
+          document.body.removeChild(ta);
+        }
+      }
+
+      els.favBtn.addEventListener("click", () => {
+        const favs = loadFavs();
+        const idx = favs.findIndex((v) => v.id === current.id);
+        if (idx >= 0) {
+          favs.splice(idx, 1);
+        } else {
+          favs.push(current);
+        }
+        saveFavs(favs);
+        render(current);
+      });
+
+      els.shareBtn.addEventListener("click", share);
+      els.newBtn.addEventListener("click", () => render(randomVerse()));
+
+      render(current);
+    </script>
+    <noscript>This page requires JavaScript to show today’s verse.</noscript>
+  </body>
+</html>
